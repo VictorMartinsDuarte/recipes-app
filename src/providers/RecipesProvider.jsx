@@ -9,6 +9,7 @@ export default function RecipesProvider({ children }) {
   const [isValidPassword, setValidPassword] = useState(false);
   const [foodsRecipes, setFoodsRecipes] = useState([]);
   const [drinksRecipes, setDrinksRecipes] = useState([]);
+  const [favoriteRecipeType, setFavoriteRecipeType] = useState('');
 
   const contextValue = {
     defaultFoodRecipes,
@@ -23,6 +24,8 @@ export default function RecipesProvider({ children }) {
     setFoodsRecipes,
     drinksRecipes,
     setDrinksRecipes,
+    favoriteRecipeType,
+    setFavoriteRecipeType,
   };
 
   return (

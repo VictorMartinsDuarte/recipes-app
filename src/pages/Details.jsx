@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
@@ -11,6 +11,7 @@ import DetailsVideo from '../components/DetailsVideo';
 import Recommendations from '../components/Recommendations';
 import DetailsIngredients from '../components/DetailsIngredients';
 import handleCompleteRecipe from '../services/doneRecipes';
+import RecipesContext from '../contexts/RecipesContext';
 import '../styles/Details.css';
 
 export default function Details({ inProgress }) {
@@ -23,6 +24,7 @@ export default function Details({ inProgress }) {
   const [recommendations, setRecommendations] = useState([]);
   const [isCopied, setIsCopied] = useState(false);
   const [completedIngredients, setCompletedIngredients] = useState(0);
+  const { setFavoriteRecipeType } = useContext(RecipesContext);
 
   useEffect(() => {
     async function getRecipe() {
@@ -76,6 +78,23 @@ export default function Details({ inProgress }) {
     image: recipeType === 'comida' ? recipe.strMealThumb : recipe.strDrinkThumb,
   };
 
+  // const handleFavorite = ({ target: { idMeal } }) => {
+  //   const stored = localStorage.getItem('favoriteRecipes');
+  //   if (stored.length > 0) {
+  //     stored.reduce((acc, cur) => {
+  //       if (cur.id !== target.idMeal) {
+  //         acc.push(cur);
+  //       }
+  //       return acc;
+  //     }, []);
+  //   } else {
+  //     localStorage.setItem('favoriteRecipes', )
+  //   }
+  // };
+  const handleFavoriteRecipeType = () => {
+    setFavoriteRecipeType(recipeType);
+  };
+
   return (
     Object.keys(recipe).length > 0 && (
       <section className="details-wrapper">
@@ -96,6 +115,7 @@ export default function Details({ inProgress }) {
           src={ whiteHeart }
           alt="favorite icon"
           data-testid="favorite-btn"
+          onClick={ handleFavoriteRecipeType }
         />
         <DetailsIngredients
           inProgress={ inProgress }
